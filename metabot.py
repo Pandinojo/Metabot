@@ -25,14 +25,16 @@ async def on_message(message):
         await client.send_message(message.channel, 'Pong')
         
     if message.content.startswith('!help'):
-        await client.send_message(message.channel, '''!searchds - searches though darksouls 3 wepons
+        await client.send_message(message.channel, '''
+        !searchds - searches though darksouls 3 wepons
         !ping - pings bot''')
     
-    if message.content.startswith('!searchds'):
-        client.send_typing(message.channel)
+    if message.content.startswith('!searchds3'):
+        que = await client.send_message(message.channel, 'searching...')
         global wepsearch
+        print('searching ds3 wep...')
         wepsearch = message.content
-        wepsearch = wepsearch[8:]
+        wepsearch = wepsearch[11:]
         gc = gspread.authorize(credentials)
         sheet = gc.open("ds3 bot sheet").sheet1 # open sheet
 
@@ -41,10 +43,9 @@ async def on_message(message):
             
             return sheet.row_values(cell.row)
         
-        await client.send_message(message.channel, search(wepsearch))
+        await client.edit_message(que, search(wepsearch))
         
     if message.content.startswith('!praise'):
         await client.send_file(message.channel, 'praisethesun.gif')
     
-
-client.run(Insert Bot Token Here)
+client.run(Put Bot Token Here)
