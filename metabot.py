@@ -2,6 +2,7 @@ import discord
 import asyncio
 import json
 import gspread
+import random
 from oauth2client.service_account import ServiceAccountCredentials
 
 scope = ['https://spreadsheets.google.com/feeds']
@@ -48,4 +49,20 @@ async def on_message(message):
     if message.content.startswith('!praise'):
         await client.send_file(message.channel, 'praisethesun.gif')
     
-client.run(Put Bot Token Here)
+    if message.content.startswith('!purge'):
+        await client.purge_from(message.channel)
+        
+    if message.content.startswith('!invite'):
+        invite = await client.create_invite(message.channel)
+        await client.send_message(message.channel, invite)
+    
+    if message.content.startswith('!coinflip'):
+        coinstate = random.randint(0,1)
+        if coinstate == 1:
+            coin = 'Heads'
+        else:
+            coin = 'Tails'
+        await client.send_message(message.channel, coin)
+        
+            
+client.run('Put Your Bot Token Here)
