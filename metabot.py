@@ -9,7 +9,12 @@ scope = ['https://spreadsheets.google.com/feeds']
 
 credentials = ServiceAccountCredentials.from_json_keyfile_name('creds.json', scope)
 
+with open('swagger.json') as w:
+    warframe = json.load(w)
+
 client = discord.Client()
+
+version = str(0.1)
 
 @client.event
 async def on_ready():
@@ -63,6 +68,14 @@ async def on_message(message):
         else:
             coin = 'Tails'
         await client.send_message(message.channel, coin)
+
+    if message.content.startswith('!v'):
+        await client.send_message(message.channel, version)
         
+    if message.content.startswith('!sortie'):
+        print(warframe.'/pc/sortie.get.summary'])
+    
+    if message.content.startswith('!'):
+        await client.send_message(message.channel, 'yeah?')
             
-client.run('Put Your Bot Token Here)
+client.run(Token Here)
